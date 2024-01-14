@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 ATankPawn::ATankPawn()
 {
@@ -33,6 +34,15 @@ void ATankPawn::Tick(float DeltaTime)
             ECollisionChannel::ECC_Visibility, 
             false, 
             HitResult);
+
+        DrawDebugSphere(
+            GetWorld(),
+            HitResult.ImpactPoint,
+            3.f,
+            3,
+            FColor::Red,
+            false,
+            -1.f);
         RotateTurret(HitResult.ImpactPoint);
     }
 
