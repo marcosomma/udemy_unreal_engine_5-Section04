@@ -16,7 +16,11 @@ class SECTION04_API ATankPawn : public ABasePawn
 public:
 	ATankPawn();
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Tick(float DeltaTime) override;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category="Camera");
@@ -27,4 +31,5 @@ private:
 	void Move(float Value);
 	void Turn(float Value);
 	
+	APlayerController* PlayerControllerRef;
 };

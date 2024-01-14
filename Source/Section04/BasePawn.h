@@ -15,17 +15,16 @@ public:
 	// Sets default values for this pawn's properties
 	ABasePawn();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Pawn Property");
 	int32 Live = 10;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Pawn Property");
 	float Speed = 200.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Pawn Property");
 	float TurnSpeed = 45.0f;
+
+protected:
+	void RotateTurret(FVector LookAtTarget);
+
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category="Components");
@@ -36,9 +35,5 @@ private:
 	UStaticMeshComponent* TurretMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category="Components");
 	USceneComponent* ProjectileSpawner;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

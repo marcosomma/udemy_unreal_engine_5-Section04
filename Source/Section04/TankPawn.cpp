@@ -6,8 +6,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-
-
 ATankPawn::ATankPawn()
 {
 	CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
@@ -22,6 +20,30 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
     PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ATankPawn::Move);
     PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATankPawn::Turn);
+}
+
+// Called every frame
+void ATankPawn::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+    if (PlayerControllerRef)
+    {
+        FHitResult HitResult;
+        PlayerControllerRef->GetHitResultUnderCursor(
+            ECollisionChannel::ECC_Visibility, 
+            false, 
+            HitResult);
+        RotateTurret(HitResult.ImpactPoint);
+    }
+
+}
+
+// Called when the game starts or when spawned
+void ATankPawn::BeginPlay()
+{
+	Super::BeginPlay();
+
+	PlayerControllerRef = Cast<APlayerController>(GetController());
 }
 
 void ATankPawn::Move(float Value)
