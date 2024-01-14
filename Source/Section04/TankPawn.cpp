@@ -1,0 +1,42 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "TankPawn.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
+
+
+
+ATankPawn::ATankPawn()
+{
+	CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
+	CameraArm->SetupAttachment(RootComponent);
+    
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(CameraArm);
+}
+
+void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+    PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ATankPawn::Move);
+    PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATankPawn::Turn);
+}
+
+void ATankPawn::Move(float Value)
+{
+    // UE_LOG(LogTemp, Warning, TEXT("Move: %f"), Value);    
+    FVector DeltaLocation = FVector::ZeroVector;
+    DeltaLocation.X = Value * Speed * UGameplayStatics::GetWorldDeltaSeconds(this);
+    AddActorLocalOffset(DeltaLocation, true);
+}
+
+void ATankPawn::Turn(float Value)
+{
+    // UE_LOG(LogTemp, Warning, TEXT("Move: %f"), Value);    
+    FRotator DeltaRotator = FRotator::ZeroRotator;
+    DeltaRotator.Yaw = Value * TurnSpeed * UGameplayStatics::GetWorldDeltaSeconds(this);
+    AddActorLocalRotation(DeltaRotator, true);
+
+}
