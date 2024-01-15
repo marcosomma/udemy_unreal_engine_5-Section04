@@ -24,4 +24,11 @@ private:
 	class ATankPawn* Tank;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category="Combat");
 	float FireRange = 10.f;
+	
+	FTimerHandle FireRateTimerHandle;
+	float FireRate = 2.f;
+	void CheckFireCondition();
+
+	bool InFireRange();
+
 };

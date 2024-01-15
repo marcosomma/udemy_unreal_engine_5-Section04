@@ -19,8 +19,11 @@ ATankPawn::ATankPawn()
 void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+    
     PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ATankPawn::Move);
     PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATankPawn::Turn);
+    
+    PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATankPawn::Fire);
 }
 
 // Called every frame
